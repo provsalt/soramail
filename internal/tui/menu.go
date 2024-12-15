@@ -17,10 +17,10 @@ type Menu struct {
 	Header string
 	Items  []MenuItem
 	Cursor int
-	Parent *Menu
+	Parent *tea.Model
 }
 
-func NewMenu(header string, items []MenuItem, parent *Menu) *Menu {
+func NewMenu(header string, items []MenuItem, parent *tea.Model) *Menu {
 	return &Menu{
 		Header: header,
 		Items:  items,
@@ -50,7 +50,7 @@ func (m *Menu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		case "esc", "backspace", "h":
 			if m.Parent != nil {
-				return m.Parent, nil
+				return *m.Parent, nil
 			}
 
 		case "down", "j":
