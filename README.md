@@ -3,14 +3,10 @@
 
 With Soramail, you can quickly create forwarded email rules and reduce spam emails without navigating through the Cloudflare web interface. It's fast, intuitive, and designed for developers who prefer working within the terminal.
 
----
-
 ## Features
 
 - **Multiple Zones**: Select from different domains configured in your Cloudflare account.
 - **High Performance**: Built with Go and the Bubbletea framework for a smooth, fast TUI experience.
-
----
 
 ## Installation
 
@@ -27,7 +23,6 @@ With Soramail, you can quickly create forwarded email rules and reduce spam emai
 go install https://github.com/provsalt/soramail
 ```
 
-
 #### Manually
 
 Clone the repository and build the binary:
@@ -43,8 +38,6 @@ Move the binary to a location in your PATH:
 ```bash
 sudo mv soramail /usr/local/bin/
 ```
-
----
 
 ## Configuration
 
@@ -70,8 +63,6 @@ sudo mv soramail /usr/local/bin/
 
    The TUI will guide you through selecting a zone and creating a new email alias.
 
----
-
 ## Usage
 
 - **Navigate** through the TUI using arrow keys or using `j` and `k` keys.
@@ -79,7 +70,6 @@ sudo mv soramail /usr/local/bin/
 - **Backtrack** by pressing `h` or `esc`.
 - **Quit** at any time with `Ctrl+C` or `q`.
 
----
 
 ## Contributing
 
@@ -91,19 +81,13 @@ Contributions are welcome! Please open an issue or submit a pull request with im
 - Settings for configuring API key and randomize function.
 - Colours using lipgloss
 
----
-
 ## License
 
 This project is licensed under the GPLv3 License. See the [LICENSE](./LICENSE) file for details.
-
----
 
 ## Acknowledgments
 
 - [Bubbletea](https://github.com/charmbracelet/bubbletea) for the TUI framework (thanks for sending over stickers awhile back!)
 - Cloudflare for their powerful Email Routing service
-
----
 
 Happy mailing! ✉️
