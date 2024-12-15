@@ -1,4 +1,4 @@
-module soramail
+module github.com/provsalt/soramail
 
 go 1.23.2
 

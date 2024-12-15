@@ -5,8 +5,8 @@ import (
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/cloudflare/cloudflare-go"
-	"soramail/internal/request"
-	"soramail/pkg/random"
+	"github.com/provsalt/soramail/internal/request"
+	"github.com/provsalt/soramail/pkg/random"
 )
 
 type RandomAddressUI struct {
@@ -60,8 +60,9 @@ func (r *RandomAddressUI) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (r *RandomAddressUI) View() string {
+	loadingString := fmt.Sprintf("%s Generating a random address based on domain %s for %s", r.spinner.View(), r.zone.Name, r.email)
 	if r.loading {
-		return fmt.Sprintf("%s Generating a random address based on domain %s for %s", r.spinner.View(), r.zone.Name, r.email)
+		return loadingString
 	}
-	return fmt.Sprintf("Generated successfully. Your addresse is %s\n", r.forwarded)
+	return fmt.Sprintf("%s\n ✔️ Generated successfully. Your addresse is %s\n", loadingString, r.forwarded)
 }

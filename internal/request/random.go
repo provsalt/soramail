@@ -6,7 +6,7 @@ import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/cloudflare/cloudflare-go"
-	"soramail/pkg/random"
+	"github.com/provsalt/soramail/pkg/random"
 	"time"
 )
 

@@ -3,9 +3,9 @@ package main
 import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/cloudflare/cloudflare-go"
+	"github.com/provsalt/soramail/internal/config"
+	"github.com/provsalt/soramail/internal/tui"
 	"log"
-	"soramail/internal/config"
-	"soramail/internal/tui"
 )
 
 func main() {

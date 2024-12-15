@@ -5,7 +5,7 @@ import (
 	"errors"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/cloudflare/cloudflare-go"
-	"soramail/internal/utils"
+	"github.com/provsalt/soramail/internal/utils"
 )
 
 type DestinationFetchMsg struct {

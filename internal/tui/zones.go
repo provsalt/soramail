@@ -5,7 +5,7 @@ import (
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbletea"
 	"github.com/cloudflare/cloudflare-go"
-	"soramail/internal/request"
+	"github.com/provsalt/soramail/internal/request"
 )
 
 type ZonesMenu struct {
