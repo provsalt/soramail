@@ -20,7 +20,7 @@ With Soramail, you can quickly create forwarded email rules and reduce spam emai
 #### With Go Install (recommended)
 
 ```bash
-go install https://github.com/provsalt/soramail
+go install github.com/provsalt/soramail@latest
 ```
 
 #### Manually
