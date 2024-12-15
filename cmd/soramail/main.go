@@ -22,7 +22,7 @@ func main() {
 	mainMenu := tui.NewZoneMenu("Select a zone", api, nil)
 
 	p := tea.NewProgram(mainMenu)
-	if err := p.Start(); err != nil {
+	if _, err := p.Run(); err != nil {
 		log.Fatal(err)
 	}
 }
