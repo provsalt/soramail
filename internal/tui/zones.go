@@ -19,10 +19,10 @@ type ZonesMenu struct {
 	loading    bool
 	spinner    spinner.Model
 	errMsg     error
-	Parent     *tea.Model
+	Parent     tea.Model
 }
 
-func NewZoneMenu(header string, api *cloudflare.API, parent *tea.Model) *ZonesMenu {
+func NewZoneMenu(header string, api *cloudflare.API, parent tea.Model) *ZonesMenu {
 	s := spinner.New()
 	s.Spinner = spinner.Moon
 	s.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
@@ -45,9 +45,10 @@ func (m *ZonesMenu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case request.ZoneFetchedMsg:
 		if msg.Err != nil {
 			m.errMsg = msg.Err
+			return m, tea.Quit
 		}
 		for _, zone := range msg.Result {
-			m.Items = append(m.Items, MenuItem{Name: zone.Name})
+			m.Items = append(m.Items, MenuItem{Name: zone.Name, Model: NewDestinationMenu("Email Address", m.api, zone.Account.ID, m)})
 		}
 		m.loading = false
 	case tea.KeyMsg:
@@ -61,12 +62,12 @@ func (m *ZonesMenu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				if selectedItem.Model == nil {
 					return m, nil
 				}
-				return selectedItem.Model, nil
+				return selectedItem.Model, selectedItem.Model.Init()
 			}
 
 		case "esc", "backspace", "h":
 			if m.Parent != nil {
-				return *m.Parent, nil
+				return m.Parent, nil
 			}
 
 		case "down", "j":
@@ -92,6 +93,9 @@ func (m *ZonesMenu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m *ZonesMenu) View() string {
 	if m.loading {
 		return fmt.Sprintf("%s Loading soramail. Press q to quit\n", m.spinner.View())
+	}
+	if m.errMsg != nil {
+		return m.errMsg.Error()
 	}
 	var res strings.Builder
 	res.WriteString(m.Header + "\n\n")
