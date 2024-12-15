@@ -17,15 +17,7 @@ type Menu struct {
 	Header string
 	Items  []MenuItem
 	Cursor int
-	Parent *tea.Model
-}
-
-func NewMenu(header string, items []MenuItem, parent *tea.Model) *Menu {
-	return &Menu{
-		Header: header,
-		Items:  items,
-		Parent: parent,
-	}
+	Parent tea.Model
 }
 
 func (m *Menu) Init() tea.Cmd {
@@ -42,15 +34,14 @@ func (m *Menu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "enter", "l":
 			if len(m.Items) > 0 {
 				selectedItem := m.Items[m.Cursor]
-				if selectedItem.Model == nil {
-					return m, nil
+				if selectedItem.Model != nil {
+					return selectedItem.Model, selectedItem.Model.Init()
 				}
-				return selectedItem.Model, nil
 			}
 
 		case "esc", "backspace", "h":
 			if m.Parent != nil {
-				return *m.Parent, nil
+				return m.Parent, nil
 			}
 
 		case "down", "j":
@@ -64,7 +55,6 @@ func (m *Menu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 		}
 	}
-
 	return m, nil
 }
 

@@ -7,19 +7,15 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/cloudflare/cloudflare-go"
 	"soramail/internal/request"
-	"strings"
 )
 
 type DestinationMenu struct {
-	Header            string
-	Items             []MenuItem
-	Cursor            int
+	Menu
 	fetchDestinations tea.Cmd
 	api               *cloudflare.API
 	loading           bool
 	spinner           spinner.Model
 	errMsg            error
-	Parent            tea.Model
 }
 
 func NewDestinationMenu(header string, api *cloudflare.API, account string, parent tea.Model) *DestinationMenu {
@@ -27,12 +23,14 @@ func NewDestinationMenu(header string, api *cloudflare.API, account string, pare
 	s.Spinner = spinner.Moon
 	s.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
 	return &DestinationMenu{
-		Header:            header,
+		Menu: Menu{
+			Header: header,
+			Parent: parent,
+		},
 		loading:           true,
 		api:               api,
 		fetchDestinations: request.FetchDestinationCmd(api, account),
 		spinner:           s,
-		Parent:            parent,
 	}
 }
 
@@ -54,43 +52,15 @@ func (m *DestinationMenu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			})
 		}
 		m.loading = false
-	case tea.KeyMsg:
-		switch msg.String() {
-		case "ctrl+c", "q":
-			return m, tea.Quit
-
-		case "enter", "l":
-			if len(m.Items) > 0 {
-				selectedItem := m.Items[m.Cursor]
-				if selectedItem.Model == nil {
-					return m, nil
-				}
-				return selectedItem.Model, nil
-			}
-
-		case "esc", "backspace", "h":
-			if m.Parent != nil {
-				return m.Parent, nil
-			}
-
-		case "down", "j":
-			if m.Cursor < len(m.Items)-1 {
-				m.Cursor++
-			}
-
-		case "up", "k":
-			if m.Cursor > 0 {
-				m.Cursor--
-			}
-		}
-	// allows the spinner to update without handling it ourselves.
+		return m, nil
 	default:
-		var cmd tea.Cmd
-		m.spinner, cmd = m.spinner.Update(msg)
-		return m, cmd
+		if m.loading {
+			var cmd tea.Cmd
+			m.spinner, cmd = m.spinner.Update(msg)
+			return m, cmd
+		}
+		return m.Menu.Update(msg)
 	}
-
-	return m, nil
 }
 
 func (m *DestinationMenu) View() string {
@@ -100,22 +70,5 @@ func (m *DestinationMenu) View() string {
 	if m.errMsg != nil {
 		return m.errMsg.Error()
 	}
-	var res strings.Builder
-	res.WriteString(m.Header + "\n\n")
-
-	for i, item := range m.Items {
-		cursor := " "
-		if i == m.Cursor {
-			cursor = ">"
-		}
-		res.WriteString(fmt.Sprintf("%s %s\n", cursor, item.Name))
-	}
-
-	res.WriteString("\nup/down: navigate • enter: select")
-	if m.Parent != nil {
-		res.WriteString(" • esc: back")
-	}
-	res.WriteString(" • q: quit")
-
-	return res.String()
+	return m.Menu.View()
 }
