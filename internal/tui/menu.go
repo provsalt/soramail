@@ -3,6 +3,7 @@ package tui
 import (
 	"fmt"
 	"github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"strings"
 )
 
@@ -70,12 +71,12 @@ func (m *Menu) View() string {
 		}
 		res.WriteString(fmt.Sprintf("%s %s\n", cursor, item.Name))
 	}
-
-	res.WriteString("\nup/down: navigate • enter: select")
+	helpStyle := lipgloss.NewStyle().Faint(true)
+	res.WriteString(helpStyle.Render("\nup/down: navigate • enter: select"))
 	if m.Parent != nil {
-		res.WriteString(" • esc: back")
+		res.WriteString(helpStyle.Render(" • esc: back"))
 	}
-	res.WriteString(" • q: quit")
+	res.WriteString(helpStyle.Render(" • q: quit"))
 
 	return res.String()
 }

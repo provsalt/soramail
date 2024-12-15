@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
 	"github.com/cloudflare/cloudflare-go"
 	"soramail/internal/request"
 )
@@ -16,20 +15,21 @@ type DestinationMenu struct {
 	loading           bool
 	spinner           spinner.Model
 	errMsg            error
+	zone              cloudflare.Zone
 }
 
-func NewDestinationMenu(header string, api *cloudflare.API, account string, parent tea.Model) *DestinationMenu {
+func NewDestinationMenu(header string, api *cloudflare.API, zone cloudflare.Zone, parent tea.Model) *DestinationMenu {
 	s := spinner.New()
 	s.Spinner = spinner.Moon
-	s.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
 	return &DestinationMenu{
 		Menu: Menu{
 			Header: header,
 			Parent: parent,
 		},
+		zone:              zone,
 		loading:           true,
 		api:               api,
-		fetchDestinations: request.FetchDestinationCmd(api, account),
+		fetchDestinations: request.FetchDestinationCmd(api, zone.Account.ID),
 		spinner:           s,
 	}
 }
@@ -48,7 +48,7 @@ func (m *DestinationMenu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		for _, address := range msg.Result {
 			m.Items = append(m.Items, MenuItem{
 				Name:  address.Email,
-				Model: nil,
+				Model: NewRandomAddressUI(m.api, m.zone, address.Email),
 			})
 		}
 		m.loading = false

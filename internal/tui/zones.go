@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
 	"github.com/cloudflare/cloudflare-go"
 	"soramail/internal/request"
 )
@@ -21,7 +20,6 @@ type ZonesMenu struct {
 func NewZoneMenu(header string, api *cloudflare.API, parent tea.Model) *ZonesMenu {
 	s := spinner.New()
 	s.Spinner = spinner.Moon
-	s.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
 	return &ZonesMenu{
 		Menu: Menu{
 			Header: header,
@@ -48,7 +46,7 @@ func (m *ZonesMenu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		for _, zone := range msg.Result {
 			m.Items = append(m.Items, MenuItem{
 				Name:  zone.Name,
-				Model: NewDestinationMenu("Email Address", m.api, zone.Account.ID, m),
+				Model: NewDestinationMenu("Email Address", m.api, zone, m),
 			})
 		}
 		m.loading = false

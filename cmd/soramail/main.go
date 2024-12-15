@@ -19,7 +19,7 @@ func main() {
 		panic(err)
 	}
 
-	mainMenu := tui.NewZoneMenu("Zones", api, nil)
+	mainMenu := tui.NewZoneMenu("Select a zone", api, nil)
 
 	p := tea.NewProgram(mainMenu)
 	if err := p.Start(); err != nil {
