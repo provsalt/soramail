@@ -62,11 +62,11 @@ func (m *ZonesMenu) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m *ZonesMenu) View() string {
+	if m.errMsg != nil {
+		return m.errMsg.Error() + "\n"
+	}
 	if m.loading {
 		return fmt.Sprintf("%s Loading soramail. Press q to quit\n", m.spinner.View())
-	}
-	if m.errMsg != nil {
-		return m.errMsg.Error()
 	}
 	return m.Menu.View()
 }
