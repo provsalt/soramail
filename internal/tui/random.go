@@ -2,6 +2,7 @@ package tui
 
 import (
 	"fmt"
+	"github.com/atotto/clipboard"
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/cloudflare/cloudflare-go"
@@ -18,6 +19,7 @@ type RandomAddressUI struct {
 	zone      cloudflare.Zone
 	spinner   spinner.Model
 	errMsg    error
+	copied    bool
 }
 
 func NewRandomAddressUI(api *cloudflare.API, zone cloudflare.Zone, email string) *RandomAddressUI {
@@ -48,6 +50,13 @@ func (r *RandomAddressUI) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		r.forwarded = msg.Address
 		r.loading = false
+
+		err := clipboard.WriteAll(msg.Address)
+		if err != nil {
+			return r, nil
+		}
+		r.copied = true
+
 		return r, tea.Quit
 	default:
 		if r.loading {
@@ -64,5 +73,8 @@ func (r *RandomAddressUI) View() string {
 	if r.loading {
 		return loadingString
 	}
-	return fmt.Sprintf("%s\n ✔️ Generated successfully. Your addresse is %s\n", loadingString, r.forwarded)
+	if r.copied {
+		return fmt.Sprintf("%s\n✔️ Generated successfully. Your addresse is %s. Automatically copied to clipboard.\n", loadingString, r.forwarded)
+	}
+	return fmt.Sprintf("%s\n✔️ Generated successfully. Your addresse is %s.\n", loadingString, r.forwarded)
 }
