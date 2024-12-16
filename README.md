@@ -8,12 +8,28 @@ With Soramail, you can quickly create forwarded email rules and reduce spam emai
 - **Multiple Zones**: Select from different domains configured in your Cloudflare account.
 - **High Performance**: Built with Go and the Bubbletea framework for a smooth, fast TUI experience.
 
+## Why?
+- **Protect Your Email Address**: Don't provide companies with your real email address. Hide behind your own domain
+- **Disposable**: Getting spam emails? Just dispose the email since it's not a catch-all address!
+- **Free**: Cloudflare Email Routing is free and without any limits to my knowledge.
+
 ## Installation
 
 ### Prerequisites
 
 - Go (latest version)
 - Cloudflare API Token with appropriate permissions for Email Routing
+
+#### Setting up Cloudflare API Token
+1. Visit [Cloudflare User API Tokens](https://dash.cloudflare.com/profile/api-tokens)
+2. Click on create token
+![This is where you should click](assets/create.png)
+3. Click on 'Get Started' on the custom token section
+![This is where you find the button](assets/custom.png)
+4. Enter a name for the token and input these recommended permissions
+![Recommended permissions](assets/permissions.png)
+5. Configure the account resources and zone resources to grant to the app. Leave it as 'All' if unsure.
+6. Finish token creation and save your token somewhere.
 
 ### Install Soramail
 
@@ -40,7 +56,9 @@ sudo mv soramail /usr/local/bin/
 ```
 
 ## Configuration
-When you run soramail for the first time, it should guide you through the setup wizard. If you need to change any of the settings, you can configure them at `~/.config/soramail` or `%LOCALAPPDATA%\soramail` (for windows)
+When you run soramail for the first time, it should guide you through the setup wizard. 
+
+If you need to change any of the settings, you can configure them at `~/.config/soramail` or `%LOCALAPPDATA%\soramail` (for windows)
 
 ## Usage
 
