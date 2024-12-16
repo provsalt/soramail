@@ -40,28 +40,7 @@ sudo mv soramail /usr/local/bin/
 ```
 
 ## Configuration
-
-1. **Set your Cloudflare API token**:
-
-   Create a new folder at ~/.config/soramail or %LOCALAPPDATA%\soramail (for windows)
-   ```bash
-   mkdir ~/.config/soramail
-   touch ~/.config/soramail/config.toml 
-   ```
-
-2. **Configure**
-    Edit the config file with your preferred editor
-    ```toml
-    APIKey = "your-api-key"
-    ```
-
-3. **Run Soramail**:
-
-   ```bash
-   soramail
-   ```
-
-   The TUI will guide you through selecting a zone and creating a new email alias.
+When you run soramail for the first time, it should guide you through the setup wizard. If you need to change any of the settings, you can configure them at `~/.config/soramail` or `%LOCALAPPDATA%\soramail` (for windows)
 
 ## Usage
 
@@ -76,7 +55,6 @@ sudo mv soramail /usr/local/bin/
 Contributions are welcome! Please open an issue or submit a pull request with improvements or bug fixes.
 
 ### Planned features
-- Setup wizard
 - Managing of email forwarding rules.
 - Settings for configuring API key and randomize function.
 - Colours using lipgloss
