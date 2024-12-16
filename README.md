@@ -1,4 +1,6 @@
 # Soramail
+<img alt="Demo of Soramail" src="assets/demo.gif" width="600" />
+
 **Soramail** is a Terminal User Interface (TUI) application that allows you to efficiently generate and manage forwarded email addresses using [Cloudflare Email Routing](https://www.cloudflare.com/products/email-routing/).
 
 With Soramail, you can quickly create forwarded email rules and reduce spam emails without navigating through the Cloudflare web interface. It's fast, intuitive, and designed for developers who prefer working within the terminal.
