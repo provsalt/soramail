@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/adrg/xdg"
 	"github.com/pelletier/go-toml"
+	"io/fs"
 	"os"
 	"path"
 )
@@ -18,13 +19,14 @@ func ReadConfig() (Config, error) {
 	cfgDir := path.Join(xdg.ConfigHome, "soramail")
 	cfg := path.Join(cfgDir, "config.toml")
 
-	err := os.Mkdir(cfgDir, 0750)
+	_ = os.Mkdir(xdg.ConfigHome, 0755)
+	err := os.Mkdir(cfgDir, 0755)
 
-	if !errors.Is(err, os.ErrExist) {
+	if !errors.Is(err, fs.ErrExist) {
 		return c, err
 	}
 
-	if _, err := os.Stat(cfg); os.IsNotExist(err) {
+	if _, err := os.Stat(cfg); !errors.Is(fs.ErrExist, err) {
 		data, err := toml.Marshal(c)
 		if err != nil {
 			return c, fmt.Errorf("failed encoding default Config: %v", err)
