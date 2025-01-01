@@ -68,8 +68,10 @@ func (m *Menu) View() string {
 		cursor := " "
 		if i == m.Cursor {
 			cursor = ">"
+			res.WriteString(fmt.Sprintf("%s %s\n", lipgloss.NewStyle().Foreground(lipgloss.Color("#7D56F4")).Render(cursor), item.Name))
+		} else {
+			res.WriteString(lipgloss.NewStyle().Faint(true).Render(cursor, item.Name))
 		}
-		res.WriteString(fmt.Sprintf("%s %s\n", cursor, item.Name))
 	}
 	helpStyle := lipgloss.NewStyle().Faint(true)
 	res.WriteString(helpStyle.Render("\nup/down: navigate • enter: select"))
